@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Supply-Chain Reality Checker // Matthews Operations Lab</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #06090f;
+      color: #e2e8f0;
+    }
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+  </style>
+</head>
+<body class="selection:bg-blue-500 selection:text-white min-h-screen flex flex-col justify-between p-4 md:p-8">
+
+  <!-- Header -->
+  <header class="max-w-5xl w-full mx-auto border-b border-slate-800 pb-6 mb-8 flex items-center justify-between flex-wrap gap-4">
+    <div class="flex items-center gap-3">
+      <div class="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-[0_0_10px_#3b82f6]"></div>
+      <span class="font-semibold tracking-wider text-white uppercase text-xs md:text-sm font-mono">MOL-INTEL // Supply-Chain Reality Checker</span>
+    </div>
+    <div class="flex items-center gap-6">
+      <a href="./matthew25-act.html" class="text-xs font-mono text-amber-400 hover:text-amber-300 transition flex items-center gap-1.5 font-bold">
+        <span>📜 Matthew 25 Act Brief</span>
+      </a>
+      <a href="../" class="text-xs font-mono text-slate-400 hover:text-white transition">&larr; BACK TO HUB</a>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-5xl w-full mx-auto flex-grow space-y-8">
+    
+    <!-- Hero / Search Bar -->
+    <div class="bg-[#161b22] border border-slate-800 rounded-xl p-6 md:p-8 shadow-2xl space-y-6">
+      <div>
+        <h1 class="text-2xl md:text-3xl font-light text-white mb-2">Commodity & Household Audit</h1>
+        <p class="text-xs md:text-sm text-slate-400">Search any food category or household good to evaluate corporate margin extraction, human & animal rights violations, ethical alternatives, and supply chain shortage risk.</p>
+      </div>
+
+      <div class="relative">
+        <input type="text" id="search-input" oninput="handleSearch()" placeholder="Search category or product (e.g., Bread, Chocolate, Soap, Coffee, Dairy, Footwear)..." class="w-full bg-[#0d1117] border border-slate-700 rounded-lg px-4 py-3.5 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-blue-500 font-mono shadow-inner">
+      </div>
+
+      <div class="flex flex-wrap gap-2 text-xs font-mono text-slate-400">
+        <span class="text-slate-500">Quick Filters:</span>
+        <button onclick="quickFilter('Bread')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 transition">Bread</button>
+        <button onclick="quickFilter('Chocolate')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 transition">Chocolate</button>
+        <button onclick="quickFilter('Soap')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 transition">Soap</button>
+        <button onclick="quickFilter('Coffee')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 transition">Coffee</button>
+        <button onclick="quickFilter('Dairy')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 transition">Dairy</button>
+        <button onclick="quickFilter('Footwear')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 transition">Footwear</button>
+      </div>
+    </div>
+
+    <!-- Results Display -->
+    <div id="results-container" class="space-y-6">
+      <!-- Injected via JS -->
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="max-w-5xl w-full mx-auto text-center pt-12 border-t border-slate-900 text-xs font-mono text-slate-500 mt-12">
+    MATTHEWS OPERATIONS LAB // SUPPLY CHAIN REALITY CHECKER // ENFORCING THE MATTHEW 25 ACT STANDARDS
+  </footer>
+
+  <script>
+    const database = [
+      {
+        category: "Bread & Grains",
+        keywords: ["bread", "grains", "flour", "bakery", "wheat"],
+        shortageRisk: "Moderate",
+        riskReason: "High reliance on imported fertilizer inputs, regional drought vulnerabilities, and centralized logistics distribution.",
+        ethicalBrands: [
+          { name: "Dave's Killer Bread", note: "Certified organic grains, fair-chance employment model providing second chances for reformed individuals." },
+          { name: "Alvarado Street Bakery", note: "Worker-owned cooperative using organically grown sprouted whole grains." },
+          { name: "Local Independent Stone-Mill Bakeries", note: "Sources regional grains directly from regenerative regional farmers." }
+        ],
+        violatingBrands: [
+          { name: "Bimbo / Arnold / Thomas", violations: "Aggressive union-busting history, intensive monoculture wheat sourcing dependent on chemical fertilizers, and anti-competitive distributor pricing." },
+          { name: "Hostess / Mondelez", violations: "Mass industrial processing, excessive plastic packaging waste, and significant lobbying against clean food labeling." }
+        ]
+      },
+      {
+        category: "Chocolate & Confectionery",
+        keywords: ["chocolate", "cocoa", "candy", "sweets"],
+        shortageRisk: "High",
+        riskReason: "Severe climate vulnerability in West African cocoa belts (Ghana/Ivory Coast), aging tree stock, and swollen shoot virus.",
+        ethicalBrands: [
+          { name: "Tony's Chocolonely", note: "100% slave-free cocoa supply chain, transparent pricing, and direct farmer premiums." },
+          { name: "Divine Chocolate", note: "Co-owned by Kuapa Kokoo, a Fairtrade cocoa farmers' cooperative in Ghana with a 44% equity stake." },
+          { name: "Alter Eco", note: "Regenerative agriculture certified, Fair Trade, and plastic-neutral packaging." }
+        ],
+        violatingBrands: [
+          { name: "Nestlé / Mars / Hershey", violations: "Extensive documented history of child labor, forced labor, and deforestation in West African supply chains despite decades-old voluntary pledges." }
+        ]
+      },
+      {
+        category: "Soap & Personal Care",
+        keywords: ["soap", "hygiene", "cleaning", "shampoo", "detergent"],
+        shortageRisk: "Low",
+        riskReason: "Stable chemical precursor supply, though palm oil supply chains face severe ecological disruptions.",
+        ethicalBrands: [
+          { name: "Dr. Bronner's", note: "Fair Trade certified, organic ingredients, progressive wage cap for executives, and regenerative agriculture." },
+          { name: "Ethique", note: "Plastic-free solid beauty bars, cruelty-free, and zero Palm Oil in core formulations." },
+          { name: "Seventh Generation", note: "Plant-based ingredients, recycled packaging, and rigorous B-Corp transparency standards." }
+        ],
+        violatingBrands: [
+          { name: "Procter & Gamble (P&G) / Unilever", violations: "Massive reliance on conflict palm oil driving rainforest deforestation, habitat destruction for endangered orangutans, and greenwashing regulatory fines." }
+        ]
+      },
+      {
+        category: "Coffee & Beverages",
+        keywords: ["coffee", "tea", "beverages", "espresso"],
+        shortageRisk: "High",
+        riskReason: "Extreme susceptibility to coffee rust (roya), erratic rainfall in equatorial bean-producing highlands, and speculative commodity markets.",
+        ethicalBrands: [
+          { name: "Equal Exchange", note: "Worker-owned cooperative dedicated to small-scale farmer co-ops and true democratic trade." },
+          { name: "Stumptown / Counter Culture (Direct Trade)", note: "Transparent pricing well above Fairtrade minimums with direct multi-year producer partnerships." }
+        ],
+        violatingBrands: [
+          { name: "Nestlé (Nespresso / Nescafe) / J.M. Smucker (Folgers)", violations: "Documented wage suppression for pickers, massive corporate consolidation squeezing smallholder farmers, and heavy pesticide monoculture." }
+        ]
+      },
+      {
+        category: "Dairy & Eggs",
+        keywords: ["dairy", "milk", "cheese", "eggs", "butter"],
+        shortageRisk: "Moderate",
+        riskReason: "Feed cost volatility, avian flu impacts on poultry, and cold-chain energy dependencies.",
+        ethicalBrands: [
+          { name: "Organic Valley", note: "Farmer-owned cooperative prioritizing pasture-raised animal welfare and family farms." },
+          { name: "Vital Farms", note: "Pasture-raised egg standards providing hens 108 square feet of outdoor green pasture per bird." }
+        ],
+        violatingBrands: [
+          { name: "ConAgra / Dean Foods / Massive CAFO Conglomerates", violations: "Concentrated Animal Feeding Operations (CAFOs) causing severe local water table nitrate pollution, deplorable antibiotic overuse, and poor animal welfare confinement." }
+        ]
+      },
+      {
+        category: "Footwear & Apparel",
+        keywords: ["shoes", "footwear", "clothing", "apparel", "sneakers"],
+        shortageRisk: "Moderate",
+        riskReason: "Complex multi-tier global supply chains spanning synthetic petroleum materials and maritime shipping chokepoints.",
+        ethicalBrands: [
+          { name: "Allbirds", note: "Utilizes renewable merino wool and sugarcane-derived EVA foam with carbon footprint disclosures." },
+          { name: "Patagonia (Footwear & Apparel)", note: "Fair Trade Certified sewing, organic cotton, and aggressive supply chain transparency audits." },
+          { name: "Veja", note: "Direct sourcing of wild Amazonian rubber and organic cotton with zero advertising budget prioritizing producer wages." }
+        ],
+        violatingBrands: [
+          { name: "Nike / Adidas / Fast Fashion Giants", violations: "Extensive reliance on outsourced overseas factories with documented forced labor risks, suppressed worker unionization, and toxic chemical effluent dumping." }
+        ]
+      }
+    ];
+
+    function handleSearch() {
+      const query = document.getElementById('search-input').value.toLowerCase().trim();
+      const container = document.getElementById('results-container');
+      container.innerHTML = '';
+
+      const filtered = database.filter(item => {
+        if (!query) return true;
+        const matchesCategory = item.category.toLowerCase().includes(query);
+        const matchesKeywords = item.keywords.some(k => k.includes(query));
+        const matchesEthical = item.ethicalBrands.some(b => b.name.toLowerCase().includes(query) || b.note.toLowerCase().includes(query));
+        const matchesViolating = item.violatingBrands.some(b => b.name.toLowerCase().includes(query) || b.violations.toLowerCase().includes(query));
+        return matchesCategory || matchesKeywords || matchesEthical || matchesViolating;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="bg-[#161b22] border border-slate-800 rounded-xl p-8 text-center text-slate-400 font-mono text-xs">
+            No matching commodity or brand found for "${query}". Try searching "Bread", "Chocolate", "Soap", or "Coffee".
+          </div>
+        `;
+        return;
+      }
+
+      filtered.forEach(item => {
+        let riskColor = "text-emerald-400 border-emerald-500/30 bg-emerald-500/10";
+        if (item.shortageRisk === "Moderate") riskColor = "text-amber-400 border-amber-500/30 bg-amber-500/10";
+        if (item.shortageRisk === "High") riskColor = "text-rose-400 border-rose-500/30 bg-rose-500/10";
+
+        let card = document.createElement('div');
+        card.className = "bg-[#161b22] border border-slate-800 rounded-xl p-6 md:p-8 shadow-xl space-y-6";
+        
+        let html = `
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+            <div>
+              <span class="text-xs font-mono text-blue-400 uppercase tracking-widest">Commodity Category</span>
+              <h2 class="text-xl md:text-2xl font-light text-white">${item.category}</h2>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="text-xs font-mono text-slate-400">Shortage Risk:</span>
+              <span class="px-3 py-1 rounded border text-xs font-mono font-bold ${riskColor}">${item.shortageRisk.toUpperCase()}</span>
+            </div>
+          </div>
+
+          <div class="bg-[#0d1117] border border-slate-900 rounded-lg p-4 font-mono text-xs text-slate-400 space-y-1">
+            <span class="text-slate-300 font-bold block mb-1">Structural Vulnerability Driver:</span>
+            <p>${item.riskReason}</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Ethical Brands -->
+            <div class="space-y-3 bg-emerald-950/10 border border-emerald-900/30 rounded-lg p-5">
+              <div class="text-xs font-mono text-emerald-400 font-bold uppercase tracking-wider flex items-center gap-2">
+                <span>✓ Ethical / Recommended Alternatives</span>
+              </div>
+              <ul class="space-y-3">
+        `;
+
+        item.ethicalBrands.forEach(b => {
+          html += `
+            <li class="text-xs text-slate-300 space-y-0.5">
+              <strong class="text-white font-medium block">${b.name}</strong>
+              <span class="text-slate-400 block">${b.note}</span>
+            </li>
+          `;
+        });
+
+        html += `
+              </ul>
+            </div>
+
+            <!-- Violating Brands -->
+            <div class="space-y-3 bg-rose-950/10 border border-rose-900/30 rounded-lg p-5">
+              <div class="text-xs font-mono text-rose-400 font-bold uppercase tracking-wider flex items-center gap-2">
+                <span>✕ Violating Brands & Disclosures</span>
+              </div>
+              <ul class="space-y-3">
+        `;
+
+        item.violatingBrands.forEach(b => {
+          html += `
+            <li class="text-xs text-slate-300 space-y-0.5">
+              <strong class="text-rose-200 font-medium block">${b.name}</strong>
+              <span class="text-slate-400 block">${b.violations}</span>
+            </li>
+          `;
+        });
+
+        html += `
+              </ul>
+            </div>
+          </div>
+        `;
+
+        card.innerHTML = html;
+        container.appendChild(card);
+      });
+    }
+
+    function quickFilter(val) {
+      document.getElementById('search-input').value = val;
+      handleSearch();
+    }
+
+    handleSearch();
+  </script>
+</body>
+</html>
+```[cite: 11]
+
+<ElicitationsGroup message="Next steps:">
+  <Elicitation label="Review individual repo uploads" query="Let me know when you have pushed these files to their respective GitHub repositories!"/></ElicitationsGroup>
